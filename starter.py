@@ -1,8 +1,13 @@
+'''
+
+https://github.com/AlexIoannides/pyspark-example-project/blob/master/README.md
+https://towardsdatascience.com/how-to-setup-the-pyspark-environment-for-development-with-good-software-engineering-practices-5fb457433a86
+https://towardsdatascience.com/successful-spark-submits-for-python-projects-53012ca7405a
+
+'''
 import os
 import sys
 import logging
-
-from pysparkling.sql.functions import col
 
 from utl import getspark,listhdfsdir
 from pyspark.conf import SparkConf
@@ -14,10 +19,9 @@ from pyspark.sql.utils import AnalysisException
 from pyspark.sql.types import StructType
 
 
-
 #initialization
 spark,conf,env,logger  = getspark()
-spark.sparkContext.setLogLevel("WARN")
+spark.sparkContext.setLogLevel(conf.job.DEBUG)
 
 if env=="itversity":
     print("No of files =", len(listhdfsdir(spark, "/user/itv001656/warehouse/pt.db/orders_kaggle")))
@@ -36,7 +40,7 @@ try:
 
     logger.info("Files read completed")
 except Exception as e:
-    logger.exception("Error in reading the dataset due to exception ",exc_info=e)
+    logger.exception("Error in reading the dataset due to exception ",e)
     exit(1)
 
 # Join the datasets .
@@ -56,7 +60,7 @@ try:
         .write.mode("overwrite").saveAsTable("pt.orders_kaggle")
         print("No of files =", len(listhdfsdir(spark, "/user/itv001656/warehouse/pt.db/orders_kaggle")))
     else:
-        output.selectExpr("udf_nameLower(product_name)").show()
+        output.selectExpr("udf_namelower(product_name)").show()
 except AnalysisException as e :
     logger.exception("error while joining",e)
 except Py4JJavaError as e:
