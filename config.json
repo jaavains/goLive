@@ -1,0 +1,63 @@
+{
+  "pyspark": {
+    "submitConfD": {
+      "spark.master": "local[*]",
+      "spark.sql.warehouse.dir": "/user/itv001656/warehouse",
+      "spark.dynamicAllocation.enabled": "true",
+      "spark.executor.cores": "8",
+      "spark.dynamicAllocation.minExecutors": "1",
+      "spark.dynamicAllocation.maxExecutors": "5",
+      "spark.sql.shuffle.partitions": "200",
+      "spark.executor.memory": "6g",
+      "spark.driver.memory": "6g"
+    },
+    "data": {
+      "products": "C:/Users/avinash/Downloads/orders/products.csv",
+      "orders": "C:/Users/avinash/Downloads/orders/orders.csv",
+      "allOrders": "C:/Users/avinash/Downloads/orders/all_order_products.csv"
+    },
+    "job": {
+      "name": "ordersJoins"
+    },
+    "udf": ["nameLower"],
+
+    "schema": {
+      "productsJ": {"fields":[{"metadata":{},"name":"product_id","nullable":true,"type":"string"},
+        {"metadata":{},"name":"product_name","nullable":true,"type":"string"},
+        {"metadata":{},"name":"aisle_id","nullable":true,"type":"string"},
+        {"metadata":{},"name":"department_id","nullable":true,"type":"string"}],"type":"struct"},
+      "ordersJ": {},
+      "allOrdersJ": {}
+    },
+    "itversity": {
+      "submitConf": {
+        "spark.master": "yarn",
+        "spark.app.name": "ordersJoins",
+        "spark.sql.warehouse.dir": "/user/itv001656/warehouse",
+        "spark.dynamicAllocation.enabled": "true",
+        "spark.executor.cores": "4",
+        "spark.dynamicAllocation.minExecutors": "1",
+        "spark.dynamicAllocation.maxExecutors": "5",
+        "spark.sql.shuffle.partitions": "50",
+        "spark.executor.memory": "7g",
+        "spark.driver.memory": "4g"
+      },
+      "data": {
+        "products": "/user/itv001656/warehouse/goLive/orders/products.csv",
+        "orders": "/user/itv001656/warehouse/goLive/orders/orders.csv",
+        "allOrders": "/user/itv001656/warehouse/goLive/orders/all_order_products.csv"
+      },
+      "job": {
+        "name": "ordersJoins",
+        "DEBUG": 0
+      },
+      "udf": {
+      },
+      "schema": {
+        "products": {},
+        "orders": {},
+        "allOrders": {}
+      }
+    }
+  }
+}
