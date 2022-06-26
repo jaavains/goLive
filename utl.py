@@ -29,7 +29,7 @@ class dicdot(dict):
             return item
 
 
-def configJson(fs="config.json"):
+def configjson(fs="config.json"):
     '''
     Takes a json config file & returns a dicdot object .
     :param fs:  config.json file
@@ -40,10 +40,10 @@ def configJson(fs="config.json"):
 
 
 env = "pyspark" if "AKARYAMP" in socket.gethostname() else "itversity"
-conf = configJson().__getattr__(env)
+conf = configjson().__getattr__(env)
 
 
-def sparksubmitConf(m=conf.submitConfD):
+def sparksubmitconf(m=conf.submitConfD):
     '''
     Spark Context needs a lidt of tuples
     :param m:
@@ -52,7 +52,7 @@ def sparksubmitConf(m=conf.submitConfD):
     return list(zip(m.keys(), m.values()))
 
 
-def listHDFSDir(spark,hdfsPath):
+def listhdfsdir(spark,hdfsPath):
     '''
     A method to check if a directory exists in HDFS
     :param spark: Spark session
@@ -65,18 +65,18 @@ def listHDFSDir(spark,hdfsPath):
 
 
 
-def nameLower(s):
+def namelower(s):
     return s.lower()
 
 
-def getSpark():
+def getspark():
     '''
     Creates and returns a spark session object.
     Also registers any UDFs mentioned in config.json
     :return:  Spark session.
     '''
     sconf = SparkConf()
-    sconf.setAll(pairs=sparksubmitConf())
+    sconf.setAll(pairs=sparksubmitconf())
     spark = SparkSession \
         .builder \
         .config(conf=sconf) \
@@ -88,11 +88,11 @@ def getSpark():
     if len(customUDFs)!=0:
         for f in customUDFs:
             spark.udf.register("udf_"+f,globals()[f])
-    return spark, conf ,env, jvmLogging(spark)
+    return spark, conf , env, jvmlogging(spark)
 
 
 
-def jvmLogging(spark):
+def jvmlogging(spark):
     '''
     Logging at JVM
     :param spark:  spark session object

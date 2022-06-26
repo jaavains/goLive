@@ -4,7 +4,7 @@ import logging
 
 from pysparkling.sql.functions import col
 
-from utl import getSpark,listHDFSDir
+from utl import getspark,listhdfsdir
 from pyspark.conf import SparkConf
 from pyspark.sql import SparkSession
 from pyspark import SparkContext
@@ -16,11 +16,11 @@ from pyspark.sql.types import StructType
 
 
 #initialization
-spark,conf,env,logger  = getSpark()
+spark,conf,env,logger  = getspark()
 spark.sparkContext.setLogLevel("WARN")
 
 if env=="itversity":
-    print("No of files =", len(listHDFSDir(spark,"/user/itv001656/warehouse/pt.db/orders_kaggle")))
+    print("No of files =", len(listhdfsdir(spark, "/user/itv001656/warehouse/pt.db/orders_kaggle")))
 
 #Extraction
 logger.info("Started reading the files.")
@@ -54,7 +54,7 @@ try:
         output\
         .coalesce(1)\
         .write.mode("overwrite").saveAsTable("pt.orders_kaggle")
-        print("No of files =", len(listHDFSDir(spark,"/user/itv001656/warehouse/pt.db/orders_kaggle")))
+        print("No of files =", len(listhdfsdir(spark, "/user/itv001656/warehouse/pt.db/orders_kaggle")))
     else:
         output.selectExpr("udf_nameLower(product_name)").show()
 except AnalysisException as e :
