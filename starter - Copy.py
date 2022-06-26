@@ -1,16 +1,8 @@
 '''
+
 https://github.com/AlexIoannides/pyspark-example-project/blob/master/README.md
 https://towardsdatascience.com/how-to-setup-the-pyspark-environment-for-development-with-good-software-engineering-practices-5fb457433a86
 https://towardsdatascience.com/successful-spark-submits-for-python-projects-53012ca7405a
-
-Unit testing :
-https://alexioannides.com/2019/07/28/best-practices-for-pyspark-etl-projects/
-https://medium.com/groupon-eng/dr-pyspark-how-i-learned-to-stop-worrying-and-love-the-data-pipeline-testing-f4a2e70a74f5
-https://github.com/soyelherein/pyspark-cicd-template
-https://zrdegree.medium.com/apache-spark-the-flavors-of-ci-cd-fdb50c489944
-https://towardsdatascience.com/create-data-science-pipelines-with-luigi-pyspark-and-ci-cd-6422129b310d
-https://docs.databricks.com/dev-tools/ci-cd/ci-cd-jenkins.html
-
 
 '''
 import os
@@ -29,7 +21,7 @@ from pyspark.sql.types import StructType
 
 #initialization
 spark,conf,env,logger  = getspark()
-spark.sparkContext.setLogLevel(conf.job.DEBUG)
+spark.sparkContext.setLogLevel("WARN")
 
 if env=="itversity":
     print("No of files =", len(listhdfsdir(spark, "/user/itv001656/warehouse/pt.db/orders_kaggle")))
@@ -68,7 +60,7 @@ try:
         .write.mode("overwrite").saveAsTable("pt.orders_kaggle")
         print("No of files =", len(listhdfsdir(spark, "/user/itv001656/warehouse/pt.db/orders_kaggle")))
     else:
-        output.selectExpr("udf_namelower(product_name)").show()
+        output.selectExpr("udf_nameLower(product_name)").show()
 except AnalysisException as e :
     logger.exception("error while joining",e)
 except Py4JJavaError as e:

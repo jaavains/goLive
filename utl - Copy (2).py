@@ -21,7 +21,8 @@ class dicdot(dict):
             if key.endswith('D'):
                 return dict(item)
             elif key.endswith('J'):
-                return item              ## outputs json & return json.dumps(item) ## outputs as a string
+                return item              ## outputs json
+                #return json.dumps(item) ## outputs as a string
             else:
                 return dicdot(item)
         else:
